@@ -1,8 +1,10 @@
 <template>
   <component :is="layout">
-    <Suspense>
-      <router-view />
-    </Suspense>
+    <router-view v-slot="{ Component }">
+<!--      <suspense>-->
+        <component :is="Component" />
+<!--      </suspense>-->
+    </router-view>
   </component>
 </template>
 

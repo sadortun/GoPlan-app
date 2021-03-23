@@ -1,27 +1,27 @@
 <template>
-  <template v-if="!loading">
+  <template v-if="!loading && assetSymbol">
     <h1 class="text-gray-700 text-3xl font-bold mb-6">
       {{ assetSymbol.get('symbol').toUpperCase() }} - <small>{{ assetSymbol.get('name') }}</small>
     </h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2">
       <AssetPrice
-        :increase="0.5"
-        :percent="1.2"
-        :price="121.1"
+          :increase="0.5"
+          :percent="1.2"
+          :price="121.1"
       />
     </div>
     <div class="rounded-lg bg-white overflow-hidden p-6 mb-6">
       <CandlestickChart
-        v-if="assetSymbol"
-        :asset-symbol="assetSymbol"
+          v-if="assetSymbol"
+          :asset-symbol="assetSymbol"
       />
     </div>
   </template>
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs, watch} from 'vue'
+import {defineComponent, onMounted, reactive, toRefs, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import CandlestickChart from '../components/Charts/CandlestickChart.vue'
 import AssetPrice from '../components/AssetPrice.vue'
@@ -33,16 +33,16 @@ export default defineComponent({
     CandlestickChart
   },
 
-  async setup () {
+  setup() {
     const route = useRoute()
 
     const data = reactive({
-      loading     : false,
-      assetSymbol : null
+      loading: false,
+      assetSymbol: null
     })
 
     const load = (async () => {
-      data.loading     = true
+      data.loading = true
       data.assetSymbol = await findOneBy('AssetSymbol', {
         symbol: route.params.ticker as string
       })
@@ -51,7 +51,10 @@ export default defineComponent({
     })
 
     watch(() => route.params, load)
-    await load()
+    onMounted(async () => {
+      await load()
+
+    })
 
 
     return {

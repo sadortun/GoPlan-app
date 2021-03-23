@@ -15,16 +15,19 @@
     <span class="ml-2 text-gray-700">{{ scale.label }}</span>
   </label>
 
-    <trading-vue
-        :data="chartData" :height="333" :width="444">
+    <trading-vue ><!-- sadortun-test -->
     </trading-vue>
+  
+<!--  <trading-vue v-if="isMounted"-->
+<!--               :data="chartData" :height="333" :width="444">-->
+<!--  </trading-vue>-->
 
   <!--  @todo If you remove this, charts wont update-->
   <small>{{ chartData.series }}</small>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue'
+import {defineComponent, onMounted, ref} from 'vue'
 import {AssetSymbol} from '../../../../common/models'
 import * as dayjs from 'dayjs'
 import * as duration from 'dayjs/plugin/duration'
@@ -46,6 +49,7 @@ export default defineComponent({
   setup(props) {
     // const theChart = ref(null)
     const currentScaleLabel = ref('3 Months')
+    const isMounted = ref(false)
     //
     //
     const chartData = ({
@@ -83,13 +87,15 @@ export default defineComponent({
     //watch(currentScaleLabel, () => reloadData())
     //  watch(() => props.assetSymbol, () => reloadData())
 
-    // onMounted(async () => {
-    //  await reloadData()
-    //});
+    onMounted(async () => {
+      isMounted.value=true
+     // await reloadData()
+    });
 
 
     return {
       timeScales,
+      isMounted,
       scaleClicked,
       currentScaleLabel,
       chartData,
