@@ -15,129 +15,90 @@
     <span class="ml-2 text-gray-700">{{ scale.label }}</span>
   </label>
 
-  <apexchart
-      ref="theChart"
-      :options="chartData.chartOptions"
-      :series="chartData.series"
-      height="350"
-      type="candlestick"
-  />
+    <trading-vue
+        :data="chartData" :height="333" :width="444">
+    </trading-vue>
 
   <!--  @todo If you remove this, charts wont update-->
   <small>{{ chartData.series }}</small>
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, ref, watch} from 'vue'
+import {defineComponent, ref} from 'vue'
 import {AssetSymbol} from '../../../../common/models'
 import * as dayjs from 'dayjs'
 import * as duration from 'dayjs/plugin/duration'
 import {getScaleByLabel, getScaleForRange, loadData, timeScales} from './CandlestickChart'
+import TradingVue from 'trading-vue-js'
 
 dayjs.extend(duration)
 
 export default defineComponent({
+  components: {
+    TradingVue,
+  },
   props: {
     assetSymbol: {
       type: AssetSymbol,
       required: true
     }
   },
-  async setup(props) {
-    const theChart = ref(null)
+  setup(props) {
+    // const theChart = ref(null)
     const currentScaleLabel = ref('3 Months')
-
-
-    const chartData = reactive({
-      chartOptions: {
-        chart: {
-          type: 'candlestick',
-          height: 350,
-          events: {
-            beforeZoom: (chartContext, {xaxis}) => {
-              return {
-                xaxis: {
-                  min: xaxis.min,
-                  max: Math.min(xaxis.max, dayjs().valueOf()) // block future time
-                }
-              }
-            },
-            zoomed: async (chartContext, {xaxis, yaxis}) => {
-              console.log(xaxis)
-              console.log(yaxis)
-
-              const scale = getScaleForRange({
-                max: xaxis.max,
-                min: xaxis.min,
-              })
-              currentScaleLabel.value = scale.label
-            }
-
-          },
-        },
-        xaxis: {
-          type: 'datetime',
-          labels: {
-            datetimeFormatter: {
-              year: 'yyyy',
-              month: 'yyyy-MM',
-              day: 'yyyy-MM-dd',
-              hour: 'HH:mm'
-            }
-          }
-        },
-        yaxis: {
-          tooltip: {
-            enabled: true
-          }
-
-        },
-      },
-      series: [
-        {
-          name: 'series-1',
-          data: []
-        },
-      ],
-
+    //
+    //
+    const chartData = ({
+      ohlcv: [
+        [1551128400000, 33, 37.1, 14, 14, 196],
+        [1551132000000, 13.7, 30, 6.6, 30, 206],
+        [1551135600000, 29.9, 33, 21.3, 21.8, 74],
+        [1551139200000, 21.7, 25.9, 18, 24, 140],
+        [1551142800000, 24.1, 24.1, 24, 24.1, 29],
+      ]
     })
-
-    const reloadData = async (
-        min: dayjs.Dayjs = undefined,
-        max: dayjs.Dayjs = undefined,
-    ) => {
-
-      const scale = getScaleByLabel(currentScaleLabel.value)
-      const from = min ? min : dayjs().subtract(scale.visible.asDays(), 'days')
-      const to = max ? max : dayjs()
-
-      chartData.series[0].data = await loadData(
-          props.assetSymbol,
-          scale,
-          from,
-          to,
-      )
-
-    }
+    //
+    // const reloadData = async (
+    //     min: dayjs.Dayjs = undefined,
+    //     max: dayjs.Dayjs = undefined,
+    // ) => {
+    //
+    //   const scale = getScaleByLabel(currentScaleLabel.value)
+    //   const from = min ? min : dayjs().subtract(scale.visible.asDays(), 'days')
+    //   const to = max ? max : dayjs()
+    //
+    //   chartData.series[0].data = await loadData(
+    //       props.assetSymbol,
+    //       scale,
+    //       from,
+    //       to,
+    //   )
+    //
+    // }
     const scaleClicked = async (label: string) => {
-      currentScaleLabel.value = label
-      await reloadData()
+      // currentScaleLabel.value = label
+      // await reloadData()
     }
-
+    //
     //watch(currentScaleLabel, () => reloadData())
-    watch(() => props.assetSymbol, () => reloadData())
+    //  watch(() => props.assetSymbol, () => reloadData())
 
     // onMounted(async () => {
-    await reloadData()
+    //  await reloadData()
     //});
 
 
     return {
-      theChart,
       timeScales,
       scaleClicked,
       currentScaleLabel,
       chartData,
+      // chart: new DataCube(Data),
+      // colors: {
+      //   colorBack: '#fff',
+      //   colorGrid: '#eee',
+      //   colorText: '#333',
+      // }
     }
   },
 })
