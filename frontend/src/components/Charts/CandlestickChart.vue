@@ -15,12 +15,9 @@
     <span class="ml-2 text-gray-700">{{ scale.label }}</span>
   </label>
 
-    <trading-vue ><!-- sadortun-test -->
-    </trading-vue>
-  
-<!--  <trading-vue v-if="isMounted"-->
-<!--               :data="chartData" :height="333" :width="444">-->
-<!--  </trading-vue>-->
+  <trading-vue v-if="isMounted"
+               :data="chartData" :height="333" :width="444">
+  </trading-vue>
 
   <!--  @todo If you remove this, charts wont update-->
   <small>{{ chartData.series }}</small>
