@@ -24,7 +24,6 @@ export default defineComponent({
     TradingVue,
   },
   setup () {
-    const {currentRoute} = useRouter()
     const chartData = ({
       ohlcv: [
         [1551128400000, 33, 37.1, 14, 14, 196],
@@ -34,12 +33,8 @@ export default defineComponent({
         [1551142800000, 24.1, 24.1, 24, 24.1, 29],
       ]
     })
-    const layout = computed(
-      () => `${currentRoute.value.meta.layout || defaultLayout}-layout`
-    )
 
     return {
-      layout,
       chartData,
     }
   },
