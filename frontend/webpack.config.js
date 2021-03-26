@@ -65,17 +65,11 @@ module.exports = (env = envDefaults) => ({
       },
       {
         test: /\.css$/,
-
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-
-            options: {
-              hmr: env.prod === false,
-            },
-          },
-          'css-loader',
-        ],
+        use: ['style-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.jsx?$/,
+        use: ['babel-loader', 'astroturf/loader'],
       },
     ],
   },

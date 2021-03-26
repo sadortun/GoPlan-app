@@ -17,7 +17,7 @@
 //     splitFactor: number;
 // }
 //
-export class TiingoApiAdapter implements PriceAdapterInterface {
+// export class TiingoApiAdapter implements PriceAdapterInterface {
 //
 //   async loadPricesFromApi (ticker: string): Promise<TiingoApiPriceResponse[]> {
 //     console.log(ticker)
@@ -45,4 +45,4 @@ export class TiingoApiAdapter implements PriceAdapterInterface {
 //     return priceHistoryItems
 //   }
 //
-}
+// }

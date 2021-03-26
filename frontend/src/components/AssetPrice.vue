@@ -43,27 +43,28 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent} from 'vue'
+import {computed, defineComponent ,ref} from 'vue'
 import {Money} from 'ts-money'
 
 export default defineComponent({
   props: {
     currentPrice: {
-      type     : Object as Money,
+      type     : Money,
       required : true
     },
     previousPrice: {
-      type    : Object as Money,
+      type    : Money,
       default : null
     },
   },
   setup (props) {
     const price = ref(props.currentPrice)
-    const change: Money = computed(() => props.currentPrice.subtract(props.previousPrice))
 
-    const changeIsPositive: Money = computed(() => change.value.toDecimal() >= 0)
+    const change = computed(() => props.currentPrice.subtract(props.previousPrice))
 
-    const percent: number = computed(() => (change.value.getAmount() / props.currentPrice.getAmount()) * 100)
+    const changeIsPositive = computed(() => change.value.toDecimal() >= 0)
+
+    const percent = computed(() => (change.value.getAmount() / props.currentPrice.getAmount()) * 100)
 
     return {
       price,

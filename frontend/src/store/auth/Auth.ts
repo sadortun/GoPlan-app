@@ -47,7 +47,7 @@ export class Auth {
   public async decryptClientKey (masterKey: string): Promise<void> {
     const user = await this.currentUser()
 
-    if (!await this.hasClientKey()) {
+    if (!user || !await this.hasClientKey()) {
       throw 'No client key'
     }
 
@@ -65,6 +65,10 @@ export class Auth {
 
   public async hasClientKey (): Promise<boolean> {
     const user = await this.currentUser()
+
+    if(!user){
+      throw false
+    }
 
     const clientKey = user.get('clientKey')
     if (clientKey) {

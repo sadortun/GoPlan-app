@@ -2,24 +2,24 @@
   <div class="flex justify-center items-center h-screen bg-gray-200 px-6">
     <div class="p-8 max-w-sm w-full bg-white shadow-md rounded-md">
       <div
-        class="flex justify-center items-center"
+          class="flex justify-center items-center"
       >
-        <go-plan-logo />
+        <go-plan-logo/>
       </div>
 
       <br>
       <br>
 
-      <div v-if="hasClientKey === null">
+      <div v-if="hasClientKey === 'anonymous'">
         <center>
-          <google-button @clicked="signInGoogle" />
+          <google-button @clicked="signInGoogle"/>
         </center>
       </div>
-      <div v-else-if="hasClientKey === true">
-        <unlock-master-key @keyValid="clientKeyValid" />
+      <div v-else-if="hasClientKey === 'yes'">
+        <unlock-master-key @keyValid="clientKeyValid"/>
       </div>
-      <div v-else-if="hasClientKey === false">
-        <create-master-key @keyValid="clientKeyValid" />
+      <div v-else-if="hasClientKey === 'no'">
+        <create-master-key @keyValid="clientKeyValid"/>
       </div>
     </div>
   </div>
@@ -32,10 +32,10 @@ import UnlockMasterKey from './UnlockMasterKey.vue'
 import {defineComponent, getCurrentInstance, inject, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import GoogleButton from './googleButton.vue'
-import {User} from '../../../models'
+import {User} from '@/models'
 import {sleep} from '../../../../../common/utils'
 import GoPlanLogo from '../../../components/GoPlanLogo.vue'
-import Parse from 'parse'
+import {AuthStore} from "@/store";
 
 export default defineComponent({
   components: {
@@ -44,13 +44,15 @@ export default defineComponent({
     CreateMasterKey,
     UnlockMasterKey,
   },
-  setup () {
+  setup() {
 
-    const app          = getCurrentInstance()
-    const gapi         = app.appContext.config.globalProperties.$gapi
-    const router       = useRouter()
-    const authStore    = inject('$authStore')
-    const hasClientKey = ref(null)
+    const app = getCurrentInstance()
+    // @ts-ignore
+    const gapi = app.appContext.config.globalProperties.$gapi
+    const router = useRouter()
+    const authStore = inject('$authStore') as AuthStore
+
+    const hasClientKey = ref('anonymous')
 
 
     const signInGoogle = async () => {
@@ -58,16 +60,16 @@ export default defineComponent({
         // const client = await gapi.getGapiClient() // @todo this is a hack,
         const auth = await gapi.getAuthInstance()
         await auth.signIn({
-          'prompt'     : 'select_account',
-          'grant_type' : 'authorization_code',
-          'scope'      : 'profile',
+          'prompt': 'select_account',
+          'grant_type': 'authorization_code',
+          'scope': 'profile',
         })
 
         const currentGoogleUser = auth.currentUser.get()
         await User.logInWith('google', {
           authData: {
-            id       : currentGoogleUser.getId(),
-            id_token : currentGoogleUser.getAuthResponse().id_token,
+            id: currentGoogleUser.getId(),
+            id_token: currentGoogleUser.getAuthResponse().id_token,
           }
         })
 
@@ -88,7 +90,7 @@ export default defineComponent({
           return
         }
 
-        hasClientKey.value = await authStore.hasClientKey()
+        hasClientKey.value = await authStore.hasClientKey() ? 'yes' : 'no'
 
 
       } catch (error) {

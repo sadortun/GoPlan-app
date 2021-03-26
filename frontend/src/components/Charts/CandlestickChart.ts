@@ -122,7 +122,7 @@ export const loadData = async (
     assetSymbolId : assetSymbol.id
   })
     // [ 1551128400000, 33,  37.1, 14,  14,  196 ],
-  const data = eod.map(elem => {
+  const data = eod.map(elem=> {
 
     return [
       dayjs(elem.date).valueOf(),

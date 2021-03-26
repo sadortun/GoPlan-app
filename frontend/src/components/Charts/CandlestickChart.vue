@@ -25,8 +25,8 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref, watch} from 'vue'
 import {AssetSymbol} from '../../../../common/models'
-import * as dayjs from 'dayjs'
-import * as duration from 'dayjs/plugin/duration'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
 import {getScaleByLabel, getScaleForRange, loadData, timeScales} from './CandlestickChart'
 import TradingVue from './trading-vue-js/src/TradingVue.vue'
 
@@ -79,7 +79,7 @@ export default defineComponent({
       await reloadData()
     }
 
-    const handleZoom = async (min, max) => {
+    const handleZoom = async (min :number, max:number) => {
       console.log('minmax', min, max)
       const scale = getScaleForRange({
         max,

@@ -56,16 +56,16 @@
 <script lang="ts">
 
 import {defineComponent, inject, ref, } from 'vue'
-import {User} from '../../../models'
-import {AuthStore} from '../../../store'
+import {User} from '@/models'
+import {AuthStore} from '@/store'
 
 export default defineComponent({
   emits: [
     'keyValid'
   ],
   async setup (props, {emit}) {
-    const authStore = inject < AuthStore >('$authStore')
-    const user      = await User.currentAsync()
+    const authStore = inject < AuthStore >('$authStore') as AuthStore
+    const user      = await User.currentAsync() as Parse.User
 
     const acceptTesting = ref(false)
     const masterKey     = ref('')

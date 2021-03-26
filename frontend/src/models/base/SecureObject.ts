@@ -7,7 +7,6 @@ import Parse from 'parse'
 export class SecureObject extends Parse.Object {
 
     private secureFields: string[] = []
-    private decryptedFields = {}
 
     constructor(className: string, secureFields: string[]) {
         super(className)
@@ -22,14 +21,9 @@ export class SecureObject extends Parse.Object {
             return val
         }
 
-        if (this.decryptedFields[attr] !== undefined) {
-            // @todo need more testing
-            //return this.decryptedFields[attr]
-        }
+        const encryptionKey = Session.get('encryptionKey') as string
 
-        this.decryptedFields[attr] = Crypto.decrypt(Session.get('encryptionKey'), val)
-
-        return this.decryptedFields[attr]
+        return Crypto.decrypt<T>(encryptionKey, val)
     }
 
 
