@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import Parse from 'parse'
+import Parse from '@/parseConfig';
 
 import {defineComponent, reactive, ref, watch} from 'vue'
 import {AssetSymbol} from '../../../common/models'
@@ -72,8 +72,8 @@ export default defineComponent({
   setup () {
     const {push} = useRouter()
 
-    const tickerName = ref('')
-    const symbols: {data: AssetSymbol[]}    = reactive({data: []})
+    const tickerName                     = ref('')
+    const symbols: {data: AssetSymbol[]} = reactive({data: []})
 
     watch(tickerName, async tickerName => {
       symbols.data = await getSymbols(tickerName)
@@ -92,7 +92,7 @@ export default defineComponent({
       })
     }
 
-    function selectElement() {
+    function selectElement () {
       click(symbols.data[0])
     }
 

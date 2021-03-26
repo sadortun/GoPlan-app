@@ -49,16 +49,16 @@
 <script lang="ts">
 
 import {defineComponent, inject, ref} from 'vue'
-import {AuthStore} from '../../../store'
+import {AuthStore} from '@/store'
 
 export default defineComponent({
   emits: [
     'keyValid'
   ],
-  async setup (props, {emit}) {
+  setup (props, {emit}) {
     const authStore        = inject < AuthStore >('$authStore')
     const masterKey        = ref('')
-    const isMasterKeyValid  = ref(false)
+    const isMasterKeyValid = ref(false)
     const acceptTesting    = ref(false)
 
     const unlockMasterKey = async () => {

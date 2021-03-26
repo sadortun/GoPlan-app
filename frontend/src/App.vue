@@ -1,8 +1,8 @@
 <template>
   <component :is="layout">
-    <Suspense>
+<!--    <Suspense>-->
       <router-view />
-    </Suspense>
+<!--    </Suspense>-->
   </component>
 </template>
 

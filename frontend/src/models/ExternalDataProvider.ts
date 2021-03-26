@@ -1,7 +1,8 @@
 // @todo move to common/models/user.ts
-import Parse from 'parse'
 
 import {SecureObject} from './base/SecureObject'
+import Parse from '@/parseConfig';
+
 
 class ExternalDataProvider extends SecureObject {
 

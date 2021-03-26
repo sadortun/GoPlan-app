@@ -1,9 +1,9 @@
 import VueStore from 'vue-class-store'
-import {User} from '../../models'
+import {User} from '@/models'
 
 import {Crypto, EncryptedValue} from '../../../../common/Crypto'
 import {Session} from './index'
-import Parse from 'parse'
+import Parse from '@/parseConfig';
 
 interface ClientKeyInterface {
     encryptionKey: string,
@@ -66,7 +66,7 @@ export class Auth {
   public async hasClientKey (): Promise<boolean> {
     const user = await this.currentUser()
 
-    if(!user){
+    if (!user) {
       throw false
     }
 

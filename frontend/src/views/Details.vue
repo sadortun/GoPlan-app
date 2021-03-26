@@ -1,5 +1,5 @@
 <template>
-  <template v-if="!loading">
+  <template v-if="!loading && assetSymbol">
     <h1 class="text-gray-700 text-3xl font-bold mb-6">
       {{ assetSymbol.get('symbol').toUpperCase() }} - <small>{{ assetSymbol.get('name') }}</small>
     </h1>
@@ -12,26 +12,25 @@
     </div>
     <div class="rounded-lg bg-white overflow-hidden p-6 mb-6">
       <CandlestickChart
-          v-if="assetSymbol"
           :asset-symbol="assetSymbol"
       />
     </div>
-    <CompanyInfo
-        :asset-symbol="assetSymbol"
-    />
+<!--    <CompanyInfo-->
+<!--        :asset-symbol="assetSymbol"-->
+<!--    />-->
   </template>
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs, watch} from 'vue'
+import {defineComponent, reactive, toRefs, onMounted,watch} from 'vue'
 import {useRoute} from 'vue-router'
 import CandlestickChart from '../components/Charts/CandlestickChart.vue'
 import AssetPrice from '../components/AssetPrice.vue'
-import {findOneBy} from '../../../common/models/objectUtils'
+// import {findOneBy} from '../../../common/models/objectUtils'
 import {Currencies, Money} from 'ts-money'
 import {AssetSymbol} from '../../../common/models'
 import CompanyInfo from '../components/CompanyInfo.vue'
-
+const Parse = require('parse')
 
 export default defineComponent({
   components: {
@@ -40,8 +39,24 @@ export default defineComponent({
     CandlestickChart
   },
 
-  async setup() {
+  setup() {
     const route = useRoute()
+
+    const findOneBy = async (
+        type: string,
+        params: { [key: string]: string | boolean | number | Parse.Object | Parse.Pointer },
+        useMasterKey = false
+    ): Promise<Parse.Object | undefined> => {
+      const query = new Parse.Query(type)
+
+      for (const [
+        k, v
+      ] of Object.entries(params)) {
+        query.equalTo(k, v)
+      }
+
+      return query.first()
+    }
 
     const data: {
       loading: boolean,
@@ -65,7 +80,10 @@ export default defineComponent({
     })
 
     watch(() => route.params, loadAssetSymbol)
-    await loadAssetSymbol()
+
+    onMounted( async () => {
+      await loadAssetSymbol()
+    })
 
     return {
       ...toRefs(data),

@@ -11,17 +11,19 @@ const envDefaults = {
 }
 
 module.exports = (env = envDefaults) => ({
-  mode:    env.prod === true ? 'production' : 'development',
-  devtool: env.prod ? false : 'source-map',
-  entry:   path.resolve(__dirname, './src/main.ts'),
+  mode    : env.prod === true ? 'production' : 'development',
+  devtool : env.prod ? false : 'source-map',
+  entry   : path.resolve(__dirname, './src/main.ts'),
 
   output: {
-    path:       path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path       : path.resolve(__dirname, './dist'),
+    publicPath : '/dist/',
   },
 
   resolve: {
-    extensions: ['.ts', '.js', '.vue', '.json'],
+    extensions: [
+      '.ts', '.js', '.vue', '.json'
+    ],
 
     alias: {
       'vue': '@vue/runtime-dom',
@@ -43,14 +45,16 @@ module.exports = (env = envDefaults) => ({
             loader: 'ts-loader',
 
             options: {
-              appendTsSuffixTo: [/\.vue$/],
+              appendTsSuffixTo: [
+                /\.vue$/
+              ],
             },
           },
         ],
       },
       {
-        test: /\.vue$/,
-        use:  'vue-loader',
+        test : /\.vue$/,
+        use  : 'vue-loader',
       },
       {
         test: /\.png$/,
@@ -64,12 +68,16 @@ module.exports = (env = envDefaults) => ({
         },
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'postcss-loader'],
+        test : /\.css$/,
+        use  : [
+          'style-loader', 'postcss-loader'
+        ],
       },
       {
-        test: /\.jsx?$/,
-        use: ['babel-loader', 'astroturf/loader'],
+        test : /\.jsx?$/,
+        use  : [
+          'babel-loader', 'astroturf/loader'
+        ],
       },
     ],
   },
@@ -86,18 +94,10 @@ module.exports = (env = envDefaults) => ({
         NODE_ENV: JSON.stringify(env.prod === true ? 'production' : 'development'),
       },
 
-      __VUE_OPTIONS_API__:   JSON.stringify(true),
-      __VUE_PROD_DEVTOOLS__: JSON.stringify(env.prod !== false),
+      '__VUE_OPTIONS_API__'   : JSON.stringify(true),
+      '__VUE_PROD_DEVTOOLS__' : JSON.stringify(env.prod !== false),
     }),
   ],
 
-  devServer: {
-    port:        3000,
-    public: env.prod === true ? 'goplan.finance' : 'local.goplan.finance:3000',
-    contentBase: __dirname,
-    hot:         true,
-    inline:      true,
-    overlay:     true,
-    stats       : 'minimal',
-  },
+
 })

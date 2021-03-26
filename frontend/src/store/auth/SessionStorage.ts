@@ -1,5 +1,5 @@
 
-import Parse from 'parse'
+import Parse from '@/parseConfig';
 
 export class Session {
 

@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineComponent ,ref} from 'vue'
+import {computed, defineComponent, ref} from 'vue'
 import {Money} from 'ts-money'
 
 export default defineComponent({

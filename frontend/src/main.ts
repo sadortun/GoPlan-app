@@ -1,3 +1,6 @@
+require('dotenv').config()
+require('./parseConfig')
+
 import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -8,7 +11,7 @@ import EmptyLayout from './layouts/EmptyLayout.vue'
 import VueGapi from 'vue-gapi'
 import {AuthStore} from './store'
 
-import './parseConfig'
+
 import VueApexCharts from 'vue3-apexcharts'
 import dayjs from 'dayjs'
 
@@ -22,10 +25,10 @@ dayjs.extend(duration)
 const app = createApp(App)
 
 app.use(VueGapi, {
-  clientId : '625813000498-2etprn7qf2ca8d3hpg0v1if77ihlp231.apps.googleusercontent.com',
-  scope    : 'profile',
+    clientId: '625813000498-2etprn7qf2ca8d3hpg0v1if77ihlp231.apps.googleusercontent.com',
+    scope: 'profile',
 })
-app.use(i18n)
+// app.use(i18n)
 app.use(VueApexCharts)
 
 const authStore = new AuthStore()
@@ -38,24 +41,24 @@ app.provide('$authStore', authStore)
 // @todo move to router.ts
 router.beforeEach(async (to, _, next) => {
 
-  // const {authStore} = inject('$authStore')
-  if (to.meta && !to.meta.requiresAuth) {
+    // const {authStore} = inject('$authStore')
+    if (to.meta && !to.meta.requiresAuth) {
+        next()
+        return
+    }
+
+    if (!(await authStore.isAuthenticated())) {
+        next({name: 'auth'})
+        return
+    }
+    // const currentUser = await authStore.currentUser()
+    // if (currentUser.isOnboardingCompleted() && to.name !== 'create-account') {
+    //   next({name: 'profile'})
+    //
+    //   return
+    // }
+
     next()
-    return
-  }
-
-  if (!await authStore.isAuthenticated()) {
-    next({name: 'auth'})
-    return
-  }
-  // const currentUser = await authStore.currentUser()
-  // if (currentUser.isOnboardingCompleted() && to.name !== 'create-account') {
-  //   next({name: 'profile'})
-  //
-  //   return
-  // }
-
-  next()
 })
 
 

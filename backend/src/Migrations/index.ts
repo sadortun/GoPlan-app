@@ -1,4 +1,4 @@
-import Parse from 'parse'
+import Parse from 'parse';
 
 const requiresAuthenticationCPL = { // @see https://docs.parseplatform.org/js/guide/#clp-and-acl-interaction
   find: {

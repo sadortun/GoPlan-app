@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
@@ -12,12 +12,16 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "rootDir": "../",
     "types": [
       "webpack-env"
     ],
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@/common": [
+        "../common/*"
       ]
     },
     "lib": [

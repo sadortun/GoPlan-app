@@ -1,24 +1,22 @@
 <template>
   <label
-      v-for="(scale) in timeScales"
-      :key="scale.label"
-      :class="currentScaleLabel === scale.label ? 'bg-gray-300' : ''"
-      class="inline-flex items-center px-2 mr-1 bg-gray-100 rounded-xl cursor-pointer hover:bg-gray-300 select-none"
+    v-for="(scale) in timeScales"
+    :key="scale.label"
+    :class="currentScaleLabel === scale.label ? 'bg-gray-300' : ''"
+    class="inline-flex items-center px-2 mr-1 bg-gray-100 rounded-xl cursor-pointer hover:bg-gray-300 select-none"
   >
     <input
-        v-model="currentScaleLabel"
-        :value="scale.label"
-        class="hidden"
-        name="radio"
-        type="radio"
-        @click="scaleClicked(scale.label)"
+      v-model="currentScaleLabel"
+      :value="scale.label"
+      class="hidden"
+      name="radio"
+      type="radio"
+      @click="scaleClicked(scale.label)"
     >
     <span class="py-1 px-2 text-sm text-gray-700">{{ scale.label }}</span>
   </label>
   <div>
-    <trading-vue :data="series">
-
-  </trading-vue>
+    <trading-vue v-if="series.ohlcv.length" :data="series" />
   </div>
 </template>
 
@@ -28,7 +26,8 @@ import {AssetSymbol} from '../../../../common/models'
 import dayjs, {Dayjs} from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import {getScaleByLabel, getScaleForRange, loadData, timeScales} from './CandlestickChart'
-import TradingVue from './trading-vue-js/src/TradingVue.vue'
+
+import TradingVue from 'trading-vue-js'
 
 dayjs.extend(duration)
 
@@ -38,34 +37,34 @@ export default defineComponent({
   },
   props: {
     assetSymbol: {
-      type: AssetSymbol,
-      required: true
+      type     : AssetSymbol,
+      required : true
     }
   },
-  setup(props) {
-    const theChart = ref(null)
+  setup (props) {
+    const theChart          = ref(null)
     const currentScaleLabel = ref('Today')
-    let currentScale = reactive(getScaleByLabel('Today'))
+    let currentScale        = reactive(getScaleByLabel('Today'))
 
     const series = ref(
-        {
-          ohlcv: []
-        }
+      {
+        ohlcv: []
+      }
     )
 
     const reloadData = async (
-        min: Dayjs,
-        max: Dayjs,
+      min?: Dayjs,
+      max?: Dayjs,
     ) => {
-      const from = min ? min : dayjs().subtract(currentScale.visible.asSeconds(), 'seconds')
-      const to = max ? max : dayjs()
+      const from   = min ? min : dayjs().subtract(currentScale.visible.asSeconds(), 'seconds')
+      const to     = max ? max : dayjs()
       series.value = {
         // @ts-ignore
         ohlcv: await loadData(
-            props.assetSymbol,
-            currentScale,
-            from,
-            to,
+          props.assetSymbol,
+          currentScale,
+          from,
+          to,
         )
       }
 
@@ -74,7 +73,7 @@ export default defineComponent({
 
 
     const scaleClicked = async (label: string) => {
-      currentScale = reactive(getScaleByLabel(label))
+      currentScale            = reactive(getScaleByLabel(label))
       currentScaleLabel.value = currentScale.label
 
       await reloadData()
@@ -82,12 +81,12 @@ export default defineComponent({
 
     const handleZoom = async (min :number, max:number) => {
       console.log('minmax', min, max)
-      const scale = getScaleForRange({
+      const scale             = getScaleForRange({
         max,
         min,
       })
       console.log('scale', scale)
-      currentScale = reactive(scale)
+      currentScale            = reactive(scale)
       currentScaleLabel.value = currentScale.label
       await reloadData(dayjs(min), dayjs(max))
     }
@@ -97,33 +96,33 @@ export default defineComponent({
         animations: {
           enabled: false,
         },
-        type: 'candlestick',
-        height: 350,
-        events: {
-          beforeZoom: (chartContext, {xaxis}) => {
-            return {
-              xaxis: {
-                min: xaxis.min,
-                max: Math.min(xaxis.max, dayjs().valueOf()) // block future time
-              }
-            }
-          },
-          scrolled: async (chartContext, {xaxis}) => {
-            await handleZoom(xaxis.min, xaxis.max)
-          },
-
-          zoomed: async (chartContext, {xaxis}) => {
-            await handleZoom(series.value[0].data[xaxis.min].x, series.value[0].data[xaxis.max].x)
-          }
+        type   : 'candlestick',
+        height : 350,
+        events : {
+          // beforeZoom: (chartContext, {xaxis}) => {
+          //   return {
+          //     xaxis: {
+          //       min : xaxis.min,
+          //       max : Math.min(xaxis.max, dayjs().valueOf()) // block future time
+          //     }
+          //   }
+          // },
+          // scrolled: async (chartContext, {xaxis}) => {
+          //   await handleZoom(xaxis.min, xaxis.max)
+          // },
+          //
+          // zoomed: async (chartContext, {xaxis}) => {
+          //   await handleZoom(series.value[0].data[xaxis.min].x, series.value[0].data[xaxis.max].x)
+          // }
         },
       },
       xaxis: {
-        type: 'category',
-        labels: {
-          formatter(value /*, timestamp, opts*/) {
-            return value
-            // return dayjs(value).toISOString()
-          }
+        type   : 'category',
+        labels : {
+          // formatter (value /*, timestamp, opts*/) {
+          //   return value
+          //   // return dayjs(value).toISOString()
+          // }
         }
       },
       yaxis: {

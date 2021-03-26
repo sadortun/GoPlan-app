@@ -2,9 +2,9 @@
   <div class="flex justify-center items-center h-screen bg-gray-200 px-6">
     <div class="p-8 max-w-sm w-full bg-white shadow-md rounded-md">
       <div
-          class="flex justify-center items-center"
+        class="flex justify-center items-center"
       >
-        <go-plan-logo/>
+        <go-plan-logo />
       </div>
 
       <br>
@@ -12,14 +12,14 @@
 
       <div v-if="hasClientKey === 'anonymous'">
         <center>
-          <google-button @clicked="signInGoogle"/>
+          <google-button @clicked="signInGoogle" />
         </center>
       </div>
       <div v-else-if="hasClientKey === 'yes'">
-        <unlock-master-key @keyValid="clientKeyValid"/>
+        <unlock-master-key @keyValid="clientKeyValid" />
       </div>
       <div v-else-if="hasClientKey === 'no'">
-        <create-master-key @keyValid="clientKeyValid"/>
+        <create-master-key @keyValid="clientKeyValid" />
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@ import GoogleButton from './googleButton.vue'
 import {User} from '@/models'
 import {sleep} from '../../../../../common/utils'
 import GoPlanLogo from '../../../components/GoPlanLogo.vue'
-import {AuthStore} from "@/store";
+import {AuthStore} from '@/store'
 
 export default defineComponent({
   components: {
@@ -44,12 +44,12 @@ export default defineComponent({
     CreateMasterKey,
     UnlockMasterKey,
   },
-  setup() {
+  setup () {
 
     const app = getCurrentInstance()
     // @ts-ignore
-    const gapi = app.appContext.config.globalProperties.$gapi
-    const router = useRouter()
+    const gapi      = app.appContext.config.globalProperties.$gapi
+    const router    = useRouter()
     const authStore = inject('$authStore') as AuthStore
 
     const hasClientKey = ref('anonymous')
@@ -60,16 +60,16 @@ export default defineComponent({
         // const client = await gapi.getGapiClient() // @todo this is a hack,
         const auth = await gapi.getAuthInstance()
         await auth.signIn({
-          'prompt': 'select_account',
-          'grant_type': 'authorization_code',
-          'scope': 'profile',
+          'prompt'     : 'select_account',
+          'grant_type' : 'authorization_code',
+          'scope'      : 'profile',
         })
 
         const currentGoogleUser = auth.currentUser.get()
         await User.logInWith('google', {
           authData: {
-            id: currentGoogleUser.getId(),
-            id_token: currentGoogleUser.getAuthResponse().id_token,
+            id       : currentGoogleUser.getId(),
+            id_token : currentGoogleUser.getAuthResponse().id_token,
           }
         })
 

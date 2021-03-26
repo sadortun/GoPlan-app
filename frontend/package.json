@@ -2,37 +2,27 @@
   "name": "goplan-frontend",
   "version": "0.0.0",
   "description": "a financial planning platform for the general public.",
-  "main": "index.js",
+  "author": "GoPlan-Finance team",
   "scripts": {
-    "test": "echo \"Error: TBD !\" && exit 1",
-    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint-fix": "vue-cli-service lint --fix"
+    "dev": "vue-cli-service serve",
+    "lint-fix": "vue-cli-service lint --fix",
+    "test": "echo \"Error: TBD !\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GoPlan-Finance/GoPlan-app.git"
-  },
-  "keywords": [
-    "finance",
-    "plan",
-    "stocks",
-    "stock-market",
-    "dashboard"
-  ],
-  "author": "GoPlan-Finance team",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/GoPlan-Finance/GoPlan-app/issues"
-  },
-  "homepage": "https://github.com/GoPlan-Finance/GoPlan-app#readme",
+  "main": "index.js",
   "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.2",
     "apexcharts": "^3.26.0",
+    "autoprefixer": "^9",
     "crypto-js": "^4.0.0",
     "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
     "feather-icons": "^4.28.0",
     "parse": "^3.1.0",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "trading-vue-js": "github:GoPlan-Finance/trading-vue-js#vue3",
     "ts-money": "^0.4.6",
     "vue": "^3.0.5",
     "vue-class-store": "github:sadortun/vue-class-store#build",
@@ -53,7 +43,6 @@
     "@typescript-eslint/parser": "^4.18.0",
     "@vitejs/plugin-vue": "^1.1.5",
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
@@ -66,6 +55,7 @@
     "css-loader": "^4.0.0",
     "eslint": "^7.22.0",
     "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-only-warn": "^1.0.2",
     "eslint-plugin-varspacing": "^1.2.2",
     "eslint-plugin-vue": "^7.8.0",
     "file-loader": "^6.0.0",
@@ -73,6 +63,23 @@
     "typescript": "^4.2.3",
     "url-loader": "^4.1.0",
     "vite-plugin-rewrite-all": "^0.1.2",
+    "vue-cli-plugin-tailwind": "~2.0.6",
     "vue-eslint-parser": "^7.1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/GoPlan-Finance/GoPlan-app/issues"
+  },
+  "homepage": "https://github.com/GoPlan-Finance/GoPlan-app#readme",
+  "keywords": [
+    "finance",
+    "plan",
+    "stocks",
+    "stock-market",
+    "dashboard"
+  ],
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoPlan-Finance/GoPlan-app.git"
   }
 }
