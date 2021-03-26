@@ -4,7 +4,7 @@
  */
 
 const USE_MASTER_KEY = {useMasterKey: true}
-const Parse = require('parse')
+const Parse          = require('parse')
 
 
 //const getOrNull = async <T extends Parse.Object>(type: T, docId: string, useMasterKey = false): Promise<T> => {

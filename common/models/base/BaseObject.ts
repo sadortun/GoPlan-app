@@ -3,11 +3,12 @@
  *
  *
  */
-import Parse from '@/parseConfig';
+import Parse from '@/parseConfig'
 
 export class BaseObject extends Parse.Object {
-    constructor(className: string) {
-        super(className)
-    }
+
+  constructor (className: string) {
+    super(className)
+  }
 
 }
