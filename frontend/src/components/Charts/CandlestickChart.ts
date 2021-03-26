@@ -3,9 +3,10 @@
  *
  *
  */
-import * as dayjs from 'dayjs'
-import * as duration from 'dayjs/plugin/duration'
+import dayjs from 'dayjs'
+import  duration from 'dayjs/plugin/duration'
 import {AssetSymbol} from '../../../../common/models'
+import Parse from 'parse'
 
 export type CandlestickSeries = {
     x: Date,
@@ -37,7 +38,7 @@ export const timeScales: TimeScaleInterface[] = [
   {
     label      : 'Today',
     visible    : dayjs.duration(1, 'day'),
-    resolution : 'minute',
+    resolution : '1minute',
   },
   {
     label      : 'Week',
@@ -120,17 +121,17 @@ export const loadData = async (
     to            : to.toISOString(),
     assetSymbolId : assetSymbol.id
   })
-
+    // [ 1551128400000, 33,  37.1, 14,  14,  196 ],
   const data = eod.map(elem => {
-    return {
-      x : elem.date,
-      y : [
-        elem.open.toFixed(2),
-        elem.open.toFixed(2),
-        elem.low.toFixed(2),
-        elem.close.toFixed(2),
-      ]
-    } as CandlestickSeries
+
+    return [
+      dayjs(elem.date).valueOf(),
+        elem.open,
+        elem.high,
+        elem.low,
+        elem.close,
+        elem.volume
+    ]
   })
 
   console.log('Received ', data.length)

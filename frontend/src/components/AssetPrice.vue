@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-wrap overflow-hidden p-6 mb-6 bg-white rounded-lg">
     <div class="text-5xl font-bold">
-      {{ currentPrice.toDecimal().toFixed(2) }}
+      {{ price.toDecimal().toFixed(2) }}
     </div>
     <div class="text-gray-400 font-bold">
-      {{ currentPrice.getCurrency() }}
+      {{ price.getCurrency() }}
     </div>
     <div
       class="p-3 ml-3 text-xl rounded-lg font-bold"
@@ -58,6 +58,7 @@ export default defineComponent({
     },
   },
   setup (props) {
+    const price = ref(props.currentPrice)
     const change: Money = computed(() => props.currentPrice.subtract(props.previousPrice))
 
     const changeIsPositive: Money = computed(() => change.value.toDecimal() >= 0)
@@ -65,6 +66,7 @@ export default defineComponent({
     const percent: number = computed(() => (change.value.getAmount() / props.currentPrice.getAmount()) * 100)
 
     return {
+      price,
       change,
       percent,
       changeIsPositive

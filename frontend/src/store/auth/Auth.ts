@@ -3,6 +3,7 @@ import {User} from '../../models'
 
 import {Crypto, EncryptedValue} from '../../../../common/Crypto'
 import {Session} from './index'
+import Parse from 'parse'
 
 interface ClientKeyInterface {
     encryptionKey: string,

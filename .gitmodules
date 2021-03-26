@@ -1,0 +1,4 @@
+[submodule "frontend/src/components/Charts/trading-vue-js"]
+	path = frontend/src/components/Charts/trading-vue-js
+	url = https://github.com/tvjsx/trading-vue-js.git
+	branch = vue3

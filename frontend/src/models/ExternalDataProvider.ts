@@ -1,4 +1,5 @@
 // @todo move to common/models/user.ts
+import Parse from 'parse'
 
 import {SecureObject} from './base/SecureObject'
 

@@ -38,7 +38,7 @@ export class Crypto {
     }
   }
 
-  static PBKDF2 (key:string, salt :unknown) : unknown {
+  static PBKDF2 (key:string, salt)  {
     const keySize    = 256
     const iterations = 1000
 

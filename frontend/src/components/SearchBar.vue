@@ -49,6 +49,8 @@
 </template>
 
 <script lang="ts">
+import Parse from 'parse'
+
 import {defineComponent, reactive, ref, watch} from 'vue'
 import {AssetSymbol} from '../../../common/models'
 import {useRouter} from 'vue-router'

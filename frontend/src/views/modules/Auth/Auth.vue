@@ -35,6 +35,7 @@ import GoogleButton from './googleButton.vue'
 import {User} from '../../../models'
 import {sleep} from '../../../../../common/utils'
 import GoPlanLogo from '../../../components/GoPlanLogo.vue'
+import Parse from 'parse'
 
 export default defineComponent({
   components: {

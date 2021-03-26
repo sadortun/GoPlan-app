@@ -57,7 +57,8 @@ export default defineComponent({
 
     const loadAssetSymbol = (async () => {
       data.loading     = true
-      data.assetSymbol = await findOneBy('AssetSymbol', {
+      data.
+          = await findOneBy('AssetSymbol', {
         symbol: route.params.ticker as string
       })
 
