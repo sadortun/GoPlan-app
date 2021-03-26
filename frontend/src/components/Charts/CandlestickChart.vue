@@ -27,8 +27,8 @@ import dayjs, {Dayjs} from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import {getScaleByLabel, getScaleForRange, loadData, timeScales} from './CandlestickChart'
 
-import TradingVue from 'trading-vue-js'
-
+// import TradingVue from 'trading-vue-js'
+import TradingVue from './TradingVue/src/TradingVue.vue'
 dayjs.extend(duration)
 
 export default defineComponent({
