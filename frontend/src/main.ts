@@ -10,10 +10,10 @@ import {AuthStore} from './store'
 
 import './parseConfig'
 import VueApexCharts from 'vue3-apexcharts'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 
-import * as duration from 'dayjs/plugin/duration'
+import duration from 'dayjs/plugin/duration'
 import i18n from './i18n'
 
 dayjs.extend(duration)
@@ -39,12 +39,12 @@ app.provide('$authStore', authStore)
 router.beforeEach(async (to, _, next) => {
 
   // const {authStore} = inject('$authStore')
-  if (to.meta && to.meta.requiresAuth === false) {
+  if (to.meta && !to.meta.requiresAuth) {
     next()
     return
   }
 
-  if (await authStore.isAuthenticated() !== true) {
+  if (!await authStore.isAuthenticated()) {
     next({name: 'auth'})
     return
   }

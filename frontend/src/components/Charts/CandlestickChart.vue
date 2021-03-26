@@ -25,7 +25,7 @@
 <script lang="ts">
 import {defineComponent, onMounted, reactive, ref, watch} from 'vue'
 import {AssetSymbol} from '../../../../common/models'
-import dayjs from 'dayjs'
+import dayjs, {Dayjs} from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import {getScaleByLabel, getScaleForRange, loadData, timeScales} from './CandlestickChart'
 import TradingVue from './trading-vue-js/src/TradingVue.vue'
@@ -54,12 +54,13 @@ export default defineComponent({
     )
 
     const reloadData = async (
-        min: dayjs.Dayjs = undefined,
-        max: dayjs.Dayjs = undefined,
+        min: Dayjs,
+        max: Dayjs,
     ) => {
       const from = min ? min : dayjs().subtract(currentScale.visible.asSeconds(), 'seconds')
       const to = max ? max : dayjs()
       series.value = {
+        // @ts-ignore
         ohlcv: await loadData(
             props.assetSymbol,
             currentScale,

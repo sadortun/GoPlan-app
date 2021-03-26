@@ -99,7 +99,7 @@ export default defineComponent({
   // eslint-disable-next-line no-unused-vars
   setup () {
     const {push: pushRoute} = useRouter()
-    const authStore         = inject(('$authStore'))
+    const authStore         = inject(('$authStore')) as AuthStore
     const dropdownOpen      = ref(false)
     const {isOpen}          = useSidebar()
 
